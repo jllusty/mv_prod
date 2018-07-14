@@ -18,11 +18,12 @@ all: mv_prod
 # - Scheme 1 -
 mv_prod:$(main_files)
 	module purge; \
-	module load StdEnv; \
-	module load impi/intel/latest; \
-	$(FC90) $(main_files) -module obj -o bin/$@_exe
+	module load impi-intel/2017.0.5; \
+	module load mkl/2017.0.5; \
+	$(FC90) -I${MKLROOT}/include ${GFORT_LINK_THR} $(main_files) -Jobj -o bin/$@_exe
+
 .PHONY: clean
 
 # Clean
 clean:
-	@rm *_exe obj/*.mod 2>/dev/null || true
+	@rm bin/*_exe obj/*.mod 2>/dev/null || true
